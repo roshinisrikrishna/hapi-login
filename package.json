@@ -1,0 +1,33 @@
+{
+  "name": "hapi-login",
+  "version": "1.0.0",
+  "description": "This repository is used for user login using hapijs in json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roshinisrikrishna/hapi-login.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roshinisrikrishna/hapi-login/issues"
+  },
+  "homepage": "https://github.com/roshinisrikrishna/hapi-login#readme",
+  "dependencies": {
+    "aws-sdk": "^2.300.0",
+    "boom": "^7.2.0",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "hapi": "^17.5.3",
+    "hapi-swagger": "^9.1.1",
+    "inert": "^5.1.0",
+    "typescript": "^3.0.1",
+    "vision": "^5.3.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1"
+  }
+}
