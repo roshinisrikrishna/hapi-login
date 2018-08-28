@@ -1,10 +1,18 @@
-const login = require('./handlers/login.js')
+const login = require('./handlers/user.js')
 const Boom = require('boom');
-const schema = require('./schemas/login.js')
+const schema = require('./schemas/user.js')
 module.exports = [
     {
         method: 'GET',
-        path: '/login',
+        path: '/user',
+        // responses: {
+        //     "200": {
+        //         "description": "Result of operation.",
+        //         "schema": {
+        //             "type": "string"
+        //         }
+        //     }
+        // },
         config: {
             tags: ['api'],
             validate:
@@ -12,22 +20,34 @@ module.exports = [
                 query: schema.givenid
             },
             response: {
-                schema: schema.returnUser
+          schema: schema.returnUser
+          // responses: {
+        //     "200": {
+        //         "description": "Result of operation.",
+        //         "schema": {
+        //             "type": "string"
+        //         }
+        //     }
+        // },
             }
         },
         handler: function (request, handler) {//retrieving the user details for input id
             return login.getUser(request, handler).then(function (value) {
-                if (value.user && !value.user.id) {
+                if (!value.Item) {
                     var error = new Error('FAILED');
                     return Boom.boomify(error, { statusCode: 400 });
                 }
-                return value;
+                 console.log('object',value.Item);
+                // console.log('string',JSON.stringify(value));
+                //console.log('object 1',value);
+
+                return value.Item;
             });
         }
     },
     {
         method: 'POST',
-        path: '/login',
+        path: '/user',
         config: {
             tags: ['api'],
             validate:
@@ -51,7 +71,7 @@ module.exports = [
     },
     {
         method: 'PUT',
-        path: '/login',
+        path: '/user',
         config: {
             tags: ['api'],
             validate:
@@ -74,7 +94,7 @@ module.exports = [
     },
     {
         method: 'DELETE',
-        path: '/login',
+        path: '/user',
         config: {
             tags: ['api'],
             validate:
