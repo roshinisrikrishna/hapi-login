@@ -1,34 +1,33 @@
 const login = require('./handlers/user.js')
 const Boom = require('boom');
+const hapi_swagger = require('hapi-swagger');
 const schema = require('./schemas/user.js')
 module.exports = [
     {
         method: 'GET',
         path: '/user',
-        // responses: {
-        //     "200": {
-        //         "description": "Result of operation.",
-        //         "schema": {
-        //             "type": "string"
-        //         }
-        //     }
-        // },
+
         config: {
             tags: ['api'],
+            description: 'Retrieve data',
+            notes: ['retrieve user details based on user id'],
+            plugins:{
+'hapi-swagger':{
+    responses: {
+        
+        '400': {'description': 'Bad Request'},
+        '401': {'description': 'Unauthorized'},
+        '200': {'description': 'Success'}
+    }
+}
+            },
+            
             validate:
             {
-                query: schema.givenid
+                query: schema.givenid.description('user id')
             },
             response: {
-          schema: schema.returnUser
-          // responses: {
-        //     "200": {
-        //         "description": "Result of operation.",
-        //         "schema": {
-        //             "type": "string"
-        //         }
-        //     }
-        // },
+                schema: schema.returnUser
             }
         },
         handler: function (request, handler) {//retrieving the user details for input id
@@ -37,10 +36,7 @@ module.exports = [
                     var error = new Error('FAILED');
                     return Boom.boomify(error, { statusCode: 400 });
                 }
-                 console.log('object',value.Item);
-                // console.log('string',JSON.stringify(value));
-                //console.log('object 1',value);
-
+                console.log('object', value.Item);
                 return value.Item;
             });
         }
