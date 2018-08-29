@@ -1,16 +1,17 @@
 var aws = require("aws-sdk");
 aws.config.update({
-    accessKeyId: "AKIAIYGB6EDK4BTFNEYQ",
-    secretAccessKey: "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", region: 'us-east-1'
+    accessKeyId: "AKIAIDD5YNH4DYYD4K5Q",
+    secretAccessKey: "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",
+    region: 'us-east-1'
 });
 var docClient = new aws.DynamoDB.DocumentClient();
 module.exports = {
     getUser: function (request, response) {//function for retrieving user details
         return new Promise(function (resolve, reject) {
             var params = {
-                TableName: "userdetails_test",
+                TableName: "user",
                 Key: {
-                    userId: request.query.id
+                    id: request.query.id
                 }
             };
             docClient.get(params, function (err, data) {
@@ -19,10 +20,6 @@ module.exports = {
                     resolve({ Item: undefined });
                 }
                 else {
-
-                    //var reid = JSON.stringify(data, null, 1);
-                    //console.log("item", data.accnt);
-
                     resolve(data);
                 }
             }
@@ -32,14 +29,14 @@ module.exports = {
     createUser: function (request, response) {//function for creating a new user
         return new Promise(function (resolve, reject) {
             var params = {
-                TableName: "userdetails_test",
+                TableName: "user",
                 Item: {
-                    userName: request.query.name,
-                    userPassword: request.query.password,
-                    userDOB: request.query.birthyear,
+                    name: request.query.name,
+                    password: request.query.password,
+                    dob: request.query.birthyear,
                     createdAt: (Date.now()).toString(),
-                    userId: request.query.id,
-                    userEmail: request.query.email,
+                    id: request.query.id,
+                    email: request.query.email,
                     updatedAt: '0'
                 }
             };
@@ -57,9 +54,9 @@ module.exports = {
     updateUser: function (request, response) {
         return new Promise(function (resolve, reject) {
             var params = {
-                TableName: "userdetails_test",
+                TableName: "user",
                 Key: {
-                    userId: request.query.id
+                    id: request.query.id
                 }
             };
             docClient.get(params, function (err, data) {
@@ -70,12 +67,12 @@ module.exports = {
                 else {
                     if (data.Item) {
                         var params1 = {
-                            TableName: "userdetails_test",
+                            TableName: "user",
                             Key: {
-                                userId: request.query.id
+                                id: request.query.id
 
                             },
-                            UpdateExpression: "set userName=:e,userPassword=:a,userDOB=:b,userEmail=:c,updatedAt=:d",
+                            UpdateExpression: "set name=:e,password=:a,dob=:b,email=:c,updatedAt=:d",
                             ExpressionAttributeValues: {
                                 ":a": request.query.password,
                                 ":b": request.query.birthyear,
@@ -105,9 +102,9 @@ module.exports = {
     deleteUser: function (request, response) {
         return new Promise(function (resolve, reject) {
             var params = {
-                TableName: "userdetails_test",
+                TableName: "user",
                 Key: {
-                    userId: request.query.id
+                    id: request.query.id
                 }
             };
             docClient.get(params, function (err, data) {
@@ -117,9 +114,9 @@ module.exports = {
                 else {
                     if (data.Item) {
                         var params1 = {
-                            TableName: "userdetails_test",
+                            TableName: "user",
                             Key: {
-                                userId: request.query.id
+                                id: request.query.id
                             }
                         };
                         docClient.delete(params1, function (err, data) {
